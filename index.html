@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智驛科技 SmartParking | 智慧停車，讓停車更簡單</title>
+    <meta name="description" content="智驛科技提供智慧停車管理、車牌辨識、自動繳費與停車場營運服務。">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Noto Sans TC"', 'sans-serif'] },
+                    colors: {
+                        primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+                        accent: { 50: '#ecfdf5', 100: '#d1fae5', 500: '#10b981', 600: '#059669', 700: '#047857' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root { scroll-padding-top: 5rem; }
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-white flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="#home" class="flex-shrink-0 flex items-center cursor-pointer" aria-label="回到首頁">
+                    <img src="images/logo.png" alt="智驛科技 Logo" class="w-8 h-8 mr-2 object-contain">
+                    <span class="text-2xl font-black text-primary-700 tracking-tight">智驛科技</span>
+                    <span class="text-lg font-medium text-gray-500 ml-2 hidden sm:block">SmartParking</span>
+                </a>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-primary-600 font-medium transition-colors">首頁</a>
+                    <a href="#services" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">我們的服務</a>
+                    <a href="#news" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">最新消息</a>
+                    <a href="#parking" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">停車場資訊</a>
+                    <a href="#about" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">關於我們</a>
+                    <a href="#contact" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">聯絡我們</a>
+                </nav>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-primary-600 focus:outline-none p-2" aria-label="開啟選單" aria-expanded="false">
+                        <i data-lucide="menu" class="w-7 h-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#home" class="mobile-link block w-full text-left px-3 py-3 text-base font-medium text-primary-600 bg-primary-50 rounded-md">首頁</a>
+                <a href="#services" class="mobile-link block w-full text-left px-3 py-3 text-base font-medium text-gray-800 hover:bg-primary-50 hover:text-primary-600 rounded-md">我們的服務</a>
+                <a href="#news" class="mobile-link block w-full text-left px-3 py-3 text-base font-medium text-gray-800 hover:bg-primary-50 hover:text-primary-600 rounded-md">最新消息</a>
+                <a href="#parking" class="mobile-link block w-full text-left px-3 py-3 text-base font-medium text-gray-800 hover:bg-primary-50 hover:text-primary-600 rounded-md">停車場資訊</a>
+                <a href="#about" class="mobile-link block w-full text-left px-3 py-3 text-base font-medium text-gray-800 hover:bg-primary-50 hover:text-primary-600 rounded-md">關於我們</a>
+                <a href="#contact" class="mobile-link block w-full text-left px-3 py-3 text-base font-medium text-gray-800 hover:bg-primary-50 hover:text-primary-600 rounded-md">聯絡我們</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="home" class="flex-grow pt-20">
+        <!-- Hero Banner -->
+        <section class="relative py-24 lg:py-36 min-h-[70vh] flex items-center">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=1920&q=80" alt="智慧城市停車背景" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/80 to-primary-900/60"></div>
+            </div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-left">
+                <div class="max-w-3xl">
+                    <p class="inline-flex items-center px-4 py-2 mb-6 rounded-full bg-white/10 text-white text-sm backdrop-blur-sm border border-white/20">
+                        <i data-lucide="sparkles" class="w-4 h-4 mr-2"></i> 智慧停車場營運管理服務
+                    </p>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                        智慧停車，<br class="hidden sm:block"/>讓停車更簡單
+                    </h1>
+                    <p class="text-lg sm:text-xl text-gray-200 mb-10 leading-relaxed font-light max-w-2xl">
+                        整合車牌辨識、自動繳費與停車場營運管理，為車主提供更便利的體驗，為管理者提供更有效率的營運服務。
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#parking" class="inline-flex items-center justify-center px-7 py-3 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 transition-colors shadow-lg shadow-primary-900/20">
+                            查看停車場據點 <i data-lucide="map" class="w-5 h-5 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 我們的服務 -->
+        <section id="services" class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <p class="text-primary-600 font-semibold mb-2">SERVICE</p>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4 tracking-tight">我們的服務</h2>
+                    <div class="w-16 h-1 bg-primary-600 mx-auto rounded-full"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <article class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="images/service01.jpg" alt="微笑服務處" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">微笑服務處</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">協助車主處理停車、繳費與月租相關問題，提供即時且親切的服務支援。</p>
+                        </div>
+                    </article>
+                    <article class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="images/service02.jpg" alt="出口快速通關" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">出口快速通關</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">整合辨識與繳費流程，減少排隊等待時間，讓車輛離場更順暢。</p>
+                        </div>
+                    </article>
+                    <article class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="images/service03.jpg" alt="自動繳費機" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">自動繳費機</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">提供臨停與月租繳費功能，降低人工處理成本，也提升使用便利性。</p>
+                        </div>
+                    </article>
+                    <article class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="images/service04.jpg" alt="車牌辨識系統" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">車牌辨識系統</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">免取票進出場，降低票卡遺失風險，提升停車場管理效率。</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 最新消息 -->
+        <section id="news" class="py-20 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-12">
+                    <p class="text-primary-600 font-semibold mb-2">NEWS</p>
+                    <h2 class="text-3xl font-bold text-gray-900 tracking-tight">最新消息</h2>
+                    <div class="w-16 h-1 bg-primary-600 mt-4 rounded-full"></div>
+                </div>
+                <div class="border-t border-gray-200">
+                    <div class="news-item border-b border-gray-200 group">
+                        <button class="w-full text-left py-6 flex flex-col sm:flex-row sm:items-center justify-between focus:outline-none" onclick="toggleAccordion(this)">
+                            <div class="flex flex-col sm:flex-row sm:items-center w-full">
+                                <span class="text-sm font-semibold text-primary-600 mb-2 sm:mb-0 sm:w-32">2026/06/24</span>
+                                <span class="text-lg font-medium text-gray-800 group-hover:text-primary-600 transition-colors">目前未開放月租車位申請</span>
+                            </div>
+                            <div class="hidden sm:block text-gray-400"><i data-lucide="chevron-down" class="w-5 h-5 chevron-icon"></i></div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="pb-6 text-gray-600 pr-4 sm:pl-32">月租名額將依各停車場車位狀況機動開放，請留意最新消息。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 停車場資訊 -->
+        <section id="parking" class="py-20 bg-gray-50 border-y border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <p class="text-primary-600 font-semibold mb-2">PARKING LOTS</p>
+                    <h2 class="text-3xl font-bold text-gray-900 tracking-tight">停車場資訊</h2>
+                    <div class="w-16 h-1 bg-primary-600 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div id="parking-filters" class="flex flex-wrap justify-center gap-3 mb-10"></div>
+                <div id="parking-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- 關於我們 -->
+        <section id="about" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <p class="text-primary-600 font-semibold mb-2">ABOUT</p>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6 tracking-tight">關於智驛科技</h2>
+                        <p class="text-gray-600 leading-8 mb-6">
+                            我們是一家專業從事停車場營運管理以及專業路邊停車設備生產的公司。在智驛科技，我們致力於提供高效、可靠的停車場管理解決方案，同時專注於生產高品質的智慧路邊停車設備，以滿足客戶不斷增長的需求。
+                        </p>
+                        <p class="text-gray-600 leading-8">
+                            我們是一支以翁國清總經理為核心領導的團隊，擁有創新且前瞻性的思維。我們的組織以核心概念為基礎，不斷提出新的策略和概念，並透過內部溝通，讓每位成員都能理解並承諾這些目標。我們的主管們則負責將這些概念傳遞、執行和放大，以實現我們的使命。
+                        </p>
+                        <p class="text-gray-600 leading-8">
+                            在我們的團隊中，領航和前瞻的角色至關重要。透過這樣的組織概念，我們能夠持續成功地啟動並實現各項任務，不斷為客戶提供優質的產品和服務。
+                        </p>
+                        <p class="text-gray-600 leading-8">
+                            我們期待著與您合作，為您提供卓越的服務和產品，共同促進城市停車管理的發展，打造更加便捷和智慧的城市交通環境。
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <figure class="rounded-2xl overflow-hidden border border-gray-200 bg-gray-100 shadow-sm">
+                            <div class="aspect-[4/5] bg-gray-100 flex items-center justify-center">
+                                <img src="images/about-01.jpg" alt="智慧停車柱照片 1" class="w-full h-full object-cover">
+                            </div>
+                        </figure>
+                        <figure class="rounded-2xl overflow-hidden border border-gray-200 bg-gray-100 shadow-sm">
+                            <div class="aspect-[4/5] bg-gray-100 flex items-center justify-center">
+                                <img src="images/about-02.jpg" alt="智慧停車柱照片 2" class="w-full h-full object-cover">
+                            </div>
+                        </figure>
+                        <div class="bg-primary-50 rounded-2xl p-5 border border-primary-100 sm:col-span-2">
+                            <div class="flex items-start">
+                                <i data-lucide="scan-line" class="w-7 h-7 text-primary-600 mr-3 mt-1 flex-shrink-0"></i>
+                                <div>
+                                    <h3 class="font-bold text-gray-900 mb-1">智慧辨識與停車管理</h3>
+                                    <p class="text-sm text-gray-600 leading-relaxed">結合智慧停車柱、車牌辨識、自動繳費與現場管理服務，協助提升停車場營運效率。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-gray-300 pt-16 pb-8 border-t border-gray-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
+                <div class="col-span-1 lg:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <img src="images/logo.png" alt="智驛科技 Logo" class="w-8 h-8 mr-2 object-contain">
+                        <span class="text-2xl font-black text-white tracking-tight">智驛科技</span>
+                        <span class="text-lg font-medium text-gray-500 ml-2">SmartParking</span>
+                    </div>
+                    <p class="text-gray-400 mb-6 max-w-xl leading-relaxed">提供智慧停車管理、停車場營運與月租停車服務。若需月租申請、停車場資訊或合作洽詢，歡迎與我們聯絡。</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="#parking" class="inline-flex items-center px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-white/15 transition-colors">停車場資訊</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-6 tracking-wide">聯絡資訊</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><i data-lucide="phone" class="w-5 h-5 text-gray-500 mr-3 mt-1"></i><span class="text-gray-400">(02) 1234-5678</span></li>
+                        <li class="flex items-start"><i data-lucide="mail" class="w-5 h-5 text-gray-500 mr-3 mt-1"></i><span class="text-gray-400">service@example.com</span></li>
+                        <li class="flex items-start"><i data-lucide="map-pin" class="w-5 h-5 text-gray-500 mr-3 mt-1"></i><span class="text-gray-400">新北市中和區建康路272號7樓</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
+                <p>© 2026 智驛科技有限公司 All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const parkingLots = [
+            {
+                "id": "jiangcui-2",
+                "name": "板橋區江翠停二平面停車場",
+                "district": "板橋區",
+                "type": "平面停車場",
+                "address": "新北市板橋區華江一路與華江五路交叉口",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日每小時30元，每12小時上限150元；假日每小時30元，每12小時上限200元。機車：當日當次10元/次，跨日另計。",
+                "monthlyFee": "汽車：里民2600元、一般3200元；機車：里民240元、一般300元。",
+                "image": "images/jiangcui-2.jpg"
+            },
+            {
+                "id": "jiangcui-1",
+                "name": "板橋區江翠停一平面停車場",
+                "district": "板橋區",
+                "type": "平面停車場",
+                "address": "新北市板橋區溪頭公園旁",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日每小時30元，每12小時上限150元；假日每小時40元，每12小時上限200元。機車：當日當次10元/次，跨日另計。",
+                "monthlyFee": "汽車：里民2600元、一般3200元；機車：里民160元、一般200元。",
+                "image": "images/jiangcui-1.jpg"
+            },
+            {
+                "id": "luzhou-minzu",
+                "name": "蘆洲區民族路408巷平面停車場",
+                "district": "蘆洲區",
+                "type": "平面停車場",
+                "address": "新北市蘆洲區民族路408巷",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限100元。機車：免費。",
+                "monthlyFee": "汽車：里民2000元、一般2500元；機車：免費。",
+                "image": "images/luzhou-minzu.jpg"
+            },
+            {
+                "id": "xizhi-fude",
+                "name": "汐止區福德段平面停車場",
+                "district": "汐止區",
+                "type": "平面停車場",
+                "address": "新北市汐止區湖前街2巷1號旁",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限100元。機車：免費。",
+                "monthlyFee": "汽車：里民2200元、一般2500元；機車：免費。",
+                "image": "images/xizhi-fude.jpg"
+            },
+            {
+                "id": "sanchong-houde",
+                "name": "三重區厚德國小地下停車場",
+                "district": "三重區",
+                "type": "地下停車場",
+                "address": "新北市三重區忠孝路一段70號B1",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限150元。",
+                "monthlyFee": "汽車：里民2600元、一般3200元。",
+                "image": "images/sanchong-houde.jpg"
+            },
+            {
+                "id": "sanchong-yongfu",
+                "name": "三重區永福國小地下停車場",
+                "district": "三重區",
+                "type": "地下停車場",
+                "address": "新北市三重區永福街66號B1、B2",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限150元。",
+                "monthlyFee": "汽車：里民3200元、一般4000元。",
+                "image": "images/sanchong-yongfu.jpg"
+            },
+            {
+                "id": "zhonghe-jiankang",
+                "name": "中和區健康段機車平面停車場",
+                "district": "中和區",
+                "type": "機車平面停車場",
+                "address": "新北市中和區中山路二段355巷旁公園內",
+                "hours": "24 小時營業",
+                "parkingFee": "機車：當日當次10元/次，跨日另計。",
+                "monthlyFee": "機車：里民160元、一般200元。",
+                "image": "images/zhonghe-jiankang.jpg"
+            },
+            {
+                "id": "banqiao-zhongshan",
+                "name": "板橋區中山國小地下停車場",
+                "district": "板橋區",
+                "type": "地下停車場",
+                "address": "新北市板橋區大觀路二段59巷31號B1、B2",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時20元，每12小時上限150元；重機：每小時10元；機車：當日當次10元/次，跨日另計。",
+                "monthlyFee": "汽車：里民3440元、一般3600元；機車：里民240元、一般300元；重機：1500元。",
+                "image": "images/banqiao-zhongshan.jpg"
+            },
+            {
+                "id": "xizhi-chengzhong",
+                "name": "汐止區城中平面停車場",
+                "district": "汐止區",
+                "type": "平面停車場",
+                "address": "新北市汐止區建成路78號對面",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限150元；夜間優惠每小時10元，晚間9點至上午8點。",
+                "monthlyFee": "汽車：里民2000元、一般2200元。",
+                "image": "images/xizhi-chengzhong.jpg"
+            },
+            {
+                "id": "luzhou-chenggong",
+                "name": "蘆洲區成功地下停車場",
+                "district": "蘆洲區",
+                "type": "地下停車場",
+                "address": "新北市蘆洲區長安街222號B1、B2",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限150元。",
+                "monthlyFee": "汽車：里民3800元、一般4100元。",
+                "image": "images/luzhou-chenggong.jpg"
+            },
+            {
+                "id": "luzhou-minquan",
+                "name": "蘆洲區民權平面停車場",
+                "district": "蘆洲區",
+                "type": "平面停車場",
+                "address": "新北市蘆洲區民權路6號",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日每小時30元，每12小時上限80元；假日每小時30元，每12小時上限150元。",
+                "monthlyFee": "汽車：里民2300元、一般2450元。",
+                "image": "images/luzhou-minquan.jpg"
+            },
+            {
+                "id": "luzhou-yongkang",
+                "name": "蘆洲區永康公園地下停車場",
+                "district": "蘆洲區",
+                "type": "地下停車場",
+                "address": "新北市蘆洲區長安街222之1號B1~B3",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限150元。",
+                "monthlyFee": "汽車：里民3800元、一般4100元。",
+                "image": "images/luzhou-yongkang.jpg"
+            },
+            {
+                "id": "luzhou-xiqian",
+                "name": "蘆洲區溪墘公園地下停車場",
+                "district": "蘆洲區",
+                "type": "地下停車場",
+                "address": "新北市蘆洲區信義路65號B1、B2",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限150元；重機：平日、假日每小時30元，每12小時上限150元。",
+                "monthlyFee": "汽車：里民3200元、一般3700元；重機：1700元。",
+                "image": "images/luzhou-xiqian.jpg"
+            },
+            {
+                "id": "shulin-13",
+                "name": "樹林區第十三停車場",
+                "district": "樹林區",
+                "type": "平面停車場",
+                "address": "新北市樹林區中山路一段與文化街交叉口",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日每小時20元，每12小時上限150元；假日每小時30元，每12小時上限150元。",
+                "monthlyFee": "汽車：里民2400元、一般2600元。",
+                "image": "images/shulin-13.jpg"
+            },
+            {
+                "id": "shulin-7",
+                "name": "樹林區第七停車場",
+                "district": "樹林區",
+                "type": "立體停車場",
+                "address": "新北市樹林區復興路202號1F、2F",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日每小時20元，每12小時上限100元；假日每小時30元，每12小時上限150元。機車：當日當次10元/次，跨日另計。",
+                "monthlyFee": "汽車：里民2500元（2F）、一般2500元（2F）。",
+                "image": "images/shulin-7.jpg"
+            },
+            {
+                "id": "shulin-6",
+                "name": "樹林區第六停車場",
+                "district": "樹林區",
+                "type": "平面停車場",
+                "address": "新北市樹林區潭興街6號之1旁",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日每小時20元，每12小時上限100元；假日每小時30元，每12小時上限150元。機車：免費。",
+                "monthlyFee": "汽車：里民2640元、一般3500元。",
+                "image": "images/shulin-6.jpg"
+            },
+            {
+                "id": "zhonghe-minan",
+                "name": "中和區民安平面停車場",
+                "district": "中和區",
+                "type": "平面停車場",
+                "address": "新北市中和區員山路455巷10號空地",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日每小時20元，每12小時上限150元；假日每小時30元，每12小時上限150元。機車：免費。",
+                "monthlyFee": "汽車：里民2400元、一般3200元。",
+                "image": "images/zhonghe-minan.jpg"
+            },
+            {
+                "id": "sanchong-wuchang",
+                "name": "三重區五常公園地下停車場",
+                "district": "三重區",
+                "type": "地下停車場",
+                "address": "新北市三重區五華街7巷30號B1",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限150元。",
+                "monthlyFee": "汽車：里民3440元、一般4300元。",
+                "image": "images/sanchong-wuchang.jpg"
+            },
+            {
+                "id": "xizhi-jinlong",
+                "name": "汐止金龍市場地下停車場",
+                "district": "汐止區",
+                "type": "地下停車場",
+                "address": "新北市汐止區中興街250號B1",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日每小時30元；假日前兩小時每小時30元，第三小時起每小時50元。",
+                "monthlyFee": "汽車：一般3800元、身障2000元。",
+                "image": "images/xizhi-jinlong.jpg"
+            },
+            {
+                "id": "yonghe-baosheng",
+                "name": "永和區保生路平面停車場",
+                "district": "永和區",
+                "type": "平面停車場",
+                "address": "新北市永和區保安路292號",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限150元。機車：免費。",
+                "monthlyFee": "汽車：里民2640元、一般3500元。",
+                "image": "images/yonghe-baosheng.jpg"
+            },
+            {
+                "id": "zhonghe-hecheng",
+                "name": "中和區和城路平面停車場",
+                "district": "中和區",
+                "type": "平面停車場",
+                "address": "新北市中和區中正路501號旁",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日每小時20元，每12小時上限150元；假日每小時30元，每12小時上限150元。機車：免費。",
+                "monthlyFee": "汽車：里民2400元、一般3200元。",
+                "image": "images/zhonghe-hecheng.jpg"
+            },
+            {
+                "id": "luzhou-ljjh",
+                "name": "蘆洲區鷺江國中地下停車場",
+                "district": "蘆洲區",
+                "type": "地下停車場",
+                "address": "新北市蘆洲區長興街300號B2、B3",
+                "hours": "24 小時營業",
+                "parkingFee": "汽車：平日、假日每小時30元，每12小時上限150元。機車：當日當次10元/次，跨日另計。",
+                "monthlyFee": "汽車：里民3440元、一般3600元。機車：汽車月租用戶免費一台。",
+                "image": "images/luzhou-ljjh.jpg"
+            }
+];
+
+        lucide.createIcons();
+
+        // 手機版選單
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = btn.querySelector('i');
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            const isHidden = menu.classList.contains('hidden');
+            icon.setAttribute('data-lucide', isHidden ? 'menu' : 'x');
+            btn.setAttribute('aria-expanded', String(!isHidden));
+            lucide.createIcons();
+        });
+        document.querySelectorAll('.mobile-link').forEach((link) => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+                icon.setAttribute('data-lucide', 'menu');
+                btn.setAttribute('aria-expanded', 'false');
+                lucide.createIcons();
+            });
+        });
+
+        // 手風琴
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const chevron = button.querySelector('.chevron-icon');
+            content.classList.toggle('open');
+            if (chevron) {
+                chevron.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+
+        // 停車場卡片與篩選
+        const grid = document.getElementById('parking-grid');
+        const filters = document.getElementById('parking-filters');
+        const districts = ['全部', ...new Set(parkingLots.map((lot) => lot.district))];
+        let currentFilter = '全部';
+
+        function renderFilters() {
+            filters.innerHTML = districts.map((district) => `
+                <button type="button" data-filter="${district}" class="filter-btn px-4 py-2 rounded-full border text-sm font-medium transition-colors ${district === currentFilter ? 'bg-primary-600 text-white border-primary-600' : 'bg-white text-gray-700 border-gray-200 hover:border-primary-300 hover:text-primary-600'}">
+                    ${district}
+                </button>
+            `).join('');
+
+            document.querySelectorAll('.filter-btn').forEach((filterBtn) => {
+                filterBtn.addEventListener('click', () => {
+                    currentFilter = filterBtn.dataset.filter;
+                    renderFilters();
+                    renderParkingCards();
+                });
+            });
+        }
+
+        function renderParkingCards() {
+            const visibleLots = currentFilter === '全部'
+                ? parkingLots
+                : parkingLots.filter((lot) => lot.district === currentFilter);
+
+            grid.innerHTML = visibleLots.map((lot) => `
+                <article class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col">
+                    <div class="h-44 overflow-hidden relative">
+                        <img src="${lot.image}" alt="${lot.name}" class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+                            <span class="bg-white/95 text-primary-700 text-xs px-2 py-1 rounded font-medium">${lot.district}</span>
+                            <span class="bg-gray-900/80 text-white text-xs px-2 py-1 rounded font-medium">${lot.type}</span>
+                        </div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-snug">${lot.name}</h3>
+                        <dl class="space-y-3 text-sm flex-grow">
+                            <div class="flex items-start">
+                                <dt class="w-20 text-gray-500 flex-shrink-0 inline-flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-1 text-primary-600"></i>地址</dt>
+                                <dd class="text-gray-800 leading-relaxed">${lot.address}</dd>
+                            </div>
+                            <div class="flex items-start">
+                                <dt class="w-20 text-gray-500 flex-shrink-0 inline-flex items-center"><i data-lucide="clock" class="w-4 h-4 mr-1 text-primary-600"></i>時間</dt>
+                                <dd class="text-gray-800 leading-relaxed">${lot.hours}</dd>
+                            </div>
+                            <div class="flex items-start">
+                                <dt class="w-20 text-gray-500 flex-shrink-0 inline-flex items-center"><i data-lucide="coins" class="w-4 h-4 mr-1 text-primary-600"></i>臨停</dt>
+                                <dd class="text-gray-800 leading-relaxed">${lot.parkingFee}</dd>
+                            </div>
+                            <div class="flex items-start">
+                                <dt class="w-20 text-gray-500 flex-shrink-0 inline-flex items-center"><i data-lucide="calendar-check" class="w-4 h-4 mr-1 text-primary-600"></i>月租</dt>
+                                <dd class="text-gray-800 leading-relaxed">${lot.monthlyFee}</dd>
+                            </div>
+                        </dl>
+                        <div class="mt-5 pt-4 border-t border-gray-100">
+                            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lot.address)}" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-full px-4 py-2 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 transition-colors">
+                                Google 導航 <i data-lucide="navigation" class="w-4 h-4 ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        renderFilters();
+        renderParkingCards();
+    </script>
+</body>
+</html>
